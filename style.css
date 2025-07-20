@@ -15,12 +15,28 @@ a {
   text-decoration: none;
 }
 
-/* Header & Hero */
+/* Keyframes */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInLeft {
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 10px rgba(0,188,212,0.6); }
+  50%      { box-shadow: 0 0 20px rgba(0,188,212,0.9); }
+}
+
+/* Hero & Navigation */
 .hero {
   position: relative;
   padding: 2rem;
   background: url('images/adityabackground.jpg') center center no-repeat;
-  background-size: 80%; /* Shrink the background image */
+  background-size: 80%;
   z-index: 1;
 }
 .hero::before {
@@ -28,7 +44,7 @@ a {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* faint dark overlay */
+  background: rgba(0, 0, 0, 0.5);
   z-index: -1;
 }
 nav {
@@ -48,13 +64,17 @@ nav a {
   color: #fff;
   font-weight: bold;
 }
+
+/* Hero Content Animation */
 .hero-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 4rem 0;
   position: relative;
-  z-index: 2; /* keep text above overlay */
+  z-index: 2;
+  opacity: 0;
+  animation: fadeInUp 1s ease-out forwards;
 }
 .hero-content h1 {
   font-size: 2.5rem;
@@ -64,14 +84,14 @@ nav a {
   color: #00bcd4;
 }
 .profile-img {
-  width: 220px; /* or any square size */
+  width: 220px;
   height: 220px;
   object-fit: cover;
   border-radius: 50%;
-  border: 4px solid #00bcd4; /* optional outline */
-  box-shadow: 0 0 10px rgba(0, 188, 212, 0.6); /* optional glow */
+  border: 4px solid #00bcd4;
+  box-shadow: 0 0 10px rgba(0, 188, 212, 0.6);
+  animation: pulseGlow 2s infinite ease-in-out;
 }
-
 
 /* Sections */
 .section {
@@ -79,8 +99,12 @@ nav a {
   text-align: center;
 }
 .timeline h3 {
-  margin: 1rem 0;
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: slideInLeft 0.6s ease forwards;
 }
+
+/* Skills Grid Animation */
 .skills-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -91,9 +115,18 @@ nav a {
   background: #1c1c1c;
   padding: 1rem;
   border-radius: 8px;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: slideIn 0.5s forwards;
 }
+.skills-grid div:nth-child(1) { animation-delay: 0.1s; }
+.skills-grid div:nth-child(2) { animation-delay: 0.2s; }
+.skills-grid div:nth-child(3) { animation-delay: 0.3s; }
+.skills-grid div:nth-child(4) { animation-delay: 0.4s; }
+.skills-grid div:nth-child(5) { animation-delay: 0.5s; }
+/* Add more nth-child delays as needed */
 
-/* Services */
+/* Services Cards */
 .cards {
   display: flex;
   gap: 1.5rem;
@@ -107,6 +140,11 @@ nav a {
   border-radius: 12px;
   width: 250px;
   text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 25px rgba(0,0,0,0.4);
 }
 
 /* Projects */
@@ -122,13 +160,22 @@ nav a {
   border-radius: 10px;
   padding: 1rem;
   width: 300px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.project:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 25px rgba(0,0,0,0.4);
 }
 .project img {
   width: 100%;
   border-radius: 8px;
+  transition: transform 0.5s ease;
+}
+.project:hover img {
+  transform: scale(1.1);
 }
 
-/* Contact */
+/* Contact Form */
 .contact form {
   display: flex;
   flex-direction: column;
@@ -149,14 +196,11 @@ button {
   border: none;
   cursor: pointer;
   border-radius: 6px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
-/* Footer */
-footer {
-  background: #111;
-  padding: 1rem;
-  text-align: center;
-  color: #999;
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 8px rgba(0,188,212,0.7);
 }
 
 /* Buttons */
@@ -169,9 +213,30 @@ footer {
   margin-right: 1rem;
   border-radius: 6px;
   font-weight: bold;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .btn.secondary {
   background: transparent;
   border: 1px solid #00bcd4;
   color: #00bcd4;
+}
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(0,188,212,0.7);
+}
+
+/* Footer */
+footer {
+  background: #111;
+  padding: 1rem;
+  text-align: center;
+  color: #999;
+}
+
+/* Accessibility: Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }
